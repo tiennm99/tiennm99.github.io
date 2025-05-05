@@ -16,6 +16,12 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Prepare repository for mirroring
+        run: |
+          git branch -r | grep 'origin/' | grep -v 'origin/HEAD' | while read remote; do
+            git branch --delete --remotes "$remote"
+          done
+
       - name: Mirror to GitLab
         uses: pixta-dev/repository-mirroring-action@v1
         with:
