@@ -117,23 +117,3 @@ jobs:
 
           # Push all tags
           git push codeberg --tags --force
-
-      - name: Mirror to SourceHut
-        run: |
-          # Add SourceHut remote
-          git remote add sourcehut git@git.sr.ht:~miti99/miti99.srht.site
-
-          # Fetch from SourceHut to get information about the default branch
-          git fetch sourcehut
-
-          # Get list of local branches
-          LOCAL_BRANCHES=$(git branch | grep -v "origin/" | tr -d '* ' | tr '\n' ' ')
-
-          # Push each local branch individually to SourceHut
-          for branch in $LOCAL_BRANCHES; do
-            # Push branch to SourceHut
-            git push sourcehut $branch:$branch --force
-          done
-
-          # Push all tags
-          git push sourcehut --tags --force
