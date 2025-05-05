@@ -1,0 +1,14 @@
+image: alpine/edge
+packages:
+  - hugo
+  - hut
+oauth: pages.sr.ht/PAGES:RW
+environment:
+  site: miti99.srht.site
+tasks:
+- package: |
+    cd $site
+    hugo
+    tar -C public -cvz . > ../site.tar.gz
+- upload: |
+    hut pages publish -d $site site.tar.gz

@@ -101,7 +101,7 @@ jobs:
       - name: Mirror to Codeberg
         run: |
           # Add Codeberg remote
-          git remote add codeberg ssh://git@codeberg.org/miti99/miti99.codeberg.page.git
+          git remote add codeberg ssh://git@codeberg.org/miti99/pages.git
 
           # Fetch from Codeberg to get information about the default branch
           git fetch codeberg
