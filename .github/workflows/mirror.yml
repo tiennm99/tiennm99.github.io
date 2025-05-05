@@ -26,6 +26,8 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan gitlab.com >> ~/.ssh/known_hosts
           ssh-keyscan bitbucket.org >> ~/.ssh/known_hosts
+          ssh-keyscan codeberg.org >> ~/.ssh/known_hosts
+          ssh-keyscan git.sr.ht >> ~/.ssh/known_hosts
 
       - name: Mirror to GitLab
         run: |
@@ -95,3 +97,43 @@ jobs:
 
           # Push all tags
           git push bitbucket --tags --force
+
+      - name: Mirror to Codeberg
+        run: |
+          # Add Codeberg remote
+          git remote add codeberg ssh://git@codeberg.org/miti99/miti99.codeberg.page.git
+
+          # Fetch from Codeberg to get information about the default branch
+          git fetch codeberg
+
+          # Get list of local branches
+          LOCAL_BRANCHES=$(git branch | grep -v "origin/" | tr -d '* ' | tr '\n' ' ')
+
+          # Push each local branch individually to Codeberg
+          for branch in $LOCAL_BRANCHES; do
+            # Push branch to Codeberg
+            git push codeberg $branch:$branch --force
+          done
+
+          # Push all tags
+          git push codeberg --tags --force
+
+      - name: Mirror to SourceHut
+        run: |
+          # Add SourceHut remote
+          git remote add sourcehut git@git.sr.ht:~miti99/miti99.srht.site
+
+          # Fetch from SourceHut to get information about the default branch
+          git fetch sourcehut
+
+          # Get list of local branches
+          LOCAL_BRANCHES=$(git branch | grep -v "origin/" | tr -d '* ' | tr '\n' ' ')
+
+          # Push each local branch individually to SourceHut
+          for branch in $LOCAL_BRANCHES; do
+            # Push branch to SourceHut
+            git push sourcehut $branch:$branch --force
+          done
+
+          # Push all tags
+          git push sourcehut --tags --force
