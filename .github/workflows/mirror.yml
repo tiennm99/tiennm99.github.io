@@ -1,0 +1,29 @@
+name: Mirror to other platforms
+
+on:
+  push:
+    branches:
+      - '**'
+  workflow_dispatch:
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    name: Mirror Repository
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Mirror to GitLab
+        uses: pixta-dev/repository-mirroring-action@v1
+        with:
+          target_repo_url: git@gitlab.com:miti99/miti99.gitlab.io.git
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Mirror to Bitbucket
+        uses: pixta-dev/repository-mirroring-action@v1
+        with:
+          target_repo_url: git@bitbucket.org:miti99/miti99.bitbucket.io.git
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
