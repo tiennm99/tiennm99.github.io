@@ -58,7 +58,7 @@ jobs:
       - name: Mirror to GitLab (tiennm99)
         run: |
           # Add GitLab remote for tiennm99
-          git remote add gitlab-tiennm99 git@gitlab.com:tiennm99/tiennm99.github.io.git
+          git remote add gitlab-tiennm99 git@gitlab.com:tiennm99/tiennm99.gitlab.io.git
 
           # Fetch from GitLab to get information about the default branch
           git fetch gitlab-tiennm99
