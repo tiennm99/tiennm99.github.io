@@ -27,7 +27,6 @@ jobs:
           ssh-keyscan gitlab.com >> ~/.ssh/known_hosts
           ssh-keyscan bitbucket.org >> ~/.ssh/known_hosts
           ssh-keyscan codeberg.org >> ~/.ssh/known_hosts
-          ssh-keyscan git.sr.ht >> ~/.ssh/known_hosts
 
       - name: Mirror to GitLab
         run: |
@@ -54,26 +53,6 @@ jobs:
 
           # Push all tags
           git push gitlab --tags --force
-
-      - name: Mirror to GitLab (tiennm99)
-        run: |
-          # Add GitLab remote for tiennm99
-          git remote add gitlab-tiennm99 git@gitlab.com:tiennm99/tiennm99.gitlab.io.git
-
-          # Fetch from GitLab to get information about the default branch
-          git fetch gitlab-tiennm99
-
-          # Get list of local branches
-          LOCAL_BRANCHES=$(git branch | grep -v "origin/" | tr -d '* ' | tr '\n' ' ')
-
-          # Push each local branch individually to GitLab
-          for branch in $LOCAL_BRANCHES; do
-            # Push branch to GitLab
-            git push gitlab-tiennm99 $branch:$branch --force
-          done
-
-          # Push all tags
-          git push gitlab-tiennm99 --tags --force
 
       - name: Mirror to Bitbucket
         run: |
