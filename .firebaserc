@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "miti99"
+    "miti99": "miti99",
+    "tiennm99": "tiennm99"
   }
 }
