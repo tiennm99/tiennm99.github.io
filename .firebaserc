@@ -2,5 +2,19 @@
   "projects": {
     "miti99": "miti99",
     "tiennm99": "tiennm99"
+  },
+  "targets": {
+    "miti99": {
+      "hosting": {
+        "miti99": ["miti99"],
+        "meetee": ["meetee"],
+        "tiennm": ["tiennm"]
+      }
+    },
+    "tiennm99": {
+      "hosting": {
+        "tiennm99": ["tiennm99"]
+      }
+    }
   }
 }
