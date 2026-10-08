@@ -33,26 +33,27 @@ jobs:
           git config --global user.name  "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          # Add GitLab remote
-          git remote add gitlab git@gitlab.com:miti99/miti99.gitlab.io.git
-
-          # Fetch from GitLab to get information about the default branch
-          git fetch gitlab
-
-          # Get current branch name
-          CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-
           # Get list of local branches
           LOCAL_BRANCHES=$(git branch | grep -v "origin/" | tr -d '* ' | tr '\n' ' ')
 
-          # Push each local branch individually to GitLab
-          for branch in $LOCAL_BRANCHES; do
-            # Push branch to GitLab
-            git push gitlab $branch:$branch --force
-          done
+          # Mirror to the Pages project of both the user and the group namespace
+          for repo in tiennm99/tiennm99.gitlab.io miti99/miti99.gitlab.io; do
+            remote="gitlab-${repo%%/*}"
 
-          # Push all tags
-          git push gitlab --tags --force
+            # Add GitLab remote
+            git remote add "$remote" "git@gitlab.com:$repo.git"
+
+            # Fetch from GitLab to get information about the default branch
+            git fetch "$remote"
+
+            # Push each local branch individually to GitLab
+            for branch in $LOCAL_BRANCHES; do
+              git push "$remote" "$branch:$branch" --force
+            done
+
+            # Push all tags
+            git push "$remote" --tags --force
+          done
 
       - name: Mirror to Bitbucket
         run: |
